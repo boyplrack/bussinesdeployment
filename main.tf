@@ -98,16 +98,20 @@ resource "aws_security_group" "web_sg" {
 
 # Instancia EC2 en la zona us-east-1a
 resource "aws_instance" "web_server_1" {
-  ami           = "ami-0453ec754f44f9a4a" # Ubuntu Server 20.04 LTS
+  ami           = "ami-0453ec754f44f9a4a" # Amazon Linux 2
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public_a.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   user_data = <<-EOF
                 #!/bin/bash
-                sudo apt update -y
-                sudo apt install -y apache2
-                sudo systemctl start apache2
-                sudo systemctl enable apache2
+                # Actualizar paquetes
+                sudo yum update -y
+                # Instalar Apache HTTPD
+                sudo yum install -y httpd
+                # Iniciar y habilitar el servicio Apache
+                sudo systemctl start httpd
+                sudo systemctl enable httpd
+                # Crear una página de prueba
                 echo "Hello from Web Server 1" > /var/www/html/index.html
               EOF
   tags = {
@@ -117,16 +121,20 @@ resource "aws_instance" "web_server_1" {
 
 # Instancia EC2 en la zona us-east-1b
 resource "aws_instance" "web_server_2" {
-  ami           = "ami-0453ec754f44f9a4a" # Ubuntu Server 20.04 LTS
+  ami           = "ami-0453ec754f44f9a4a" # Amazon Linux 2
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public_b.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
   user_data = <<-EOF
                 #!/bin/bash
-                sudo apt update -y
-                sudo apt install -y apache2
-                sudo systemctl start apache2
-                sudo systemctl enable apache2
+                # Actualizar paquetes
+                sudo yum update -y
+                # Instalar Apache HTTPD
+                sudo yum install -y httpd
+                # Iniciar y habilitar el servicio Apache
+                sudo systemctl start httpd
+                sudo systemctl enable httpd
+                # Crear una página de prueba
                 echo "Hello from Web Server 2" > /var/www/html/index.html
               EOF
   tags = {
@@ -153,6 +161,14 @@ resource "aws_lb_target_group" "web_tg" {
   protocol    = "HTTP"
   vpc_id      = aws_vpc.main.id
   target_type = "instance"
+
+  health_check {
+    path                = "/"
+    interval            = 30
+    timeout             = 5
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
 }
 
 # Listener del ALB
