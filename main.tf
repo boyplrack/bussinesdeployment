@@ -42,7 +42,7 @@ resource "aws_security_group" "web_sg" {
 }
 
 resource "aws_instance" "web_server_1" {
-  ami           = "ami-0c55b159cbfafe1f0" # Amazon Linux 2
+  ami           = "ami-0453ec754f44f9a4a" # Amazon Linux 2
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   security_groups = [aws_security_group.web_sg.name]
@@ -60,7 +60,7 @@ resource "aws_instance" "web_server_1" {
 }
 
 resource "aws_instance" "web_server_2" {
-  ami           = "ami-0c55b159cbfafe1f0" # Amazon Linux 2
+  ami           = "ami-0453ec754f44f9a4a" # Amazon Linux 2
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   security_groups = [aws_security_group.web_sg.name]
