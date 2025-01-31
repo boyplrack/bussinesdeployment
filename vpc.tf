@@ -15,7 +15,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "main-internet-gateway"
+    Name = "ig-empresa-vertical-ambiente"
   }
 }
 
@@ -29,7 +29,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name = "public-route-table"
+    Name = "prt-empresa-vertical-ambiente"
   }
 }
 
@@ -40,7 +40,7 @@ resource "aws_subnet" "public_a" {
   map_public_ip_on_launch = true
   availability_zone       = "us-east-1a"
   tags = {
-    Name = "public-subnet-a"
+    Name = "sn1-empresa-vertical-ambiente"
   }
 }
 
@@ -51,7 +51,7 @@ resource "aws_subnet" "public_b" {
   map_public_ip_on_launch = true
   availability_zone       = "us-east-1b"
   tags = {
-    Name = "public-subnet-b"
+    Name = "sn2-empresa-vertical-ambiente"
   }
 }
 
